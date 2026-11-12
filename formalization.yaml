@@ -1,0 +1,171 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Multiplying 9 × 11 by 11 × 11 matrices with 708 multiplications"
+  description: >-
+    A Lean 4 and Mathlib proof that the matrix multiplication tensor ⟨9, 11, 11⟩ has rank at most 708
+    over the rationals. Two compared theorems: 708 triples of rational matrices decompose the tensor
+    (∑ᵢ uᵢ[a, b] vᵢ[c, d] wᵢ[e, f] = [b = c ∧ a = e ∧ d = f]), and the same triples form a bilinear
+    algorithm A * B = ∑ᵢ (∑ uᵢ[a, b] A[a, b]) (∑ vᵢ[c, d] B[c, d]) wᵢ over every field of characteristic
+    zero. The scheme, scaled to integers, is data; Lean's kernel checks it (decide +kernel, no
+    native_decide) slice by slice with the coefficients packed into large integers, and a soundness
+    proof for every input turns the 99 slice checks, a range check and a bound check into the tensor
+    identity. The smallest rank listed for this format in the Lille catalogue was 710 when this was
+    written.
+  authors:
+    - "Arhan Canli"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Arhan Canli"
+
+classification:
+  arxiv: ["cs.SC", "cs.CC"]
+  msc2020: ["68Q25", "15A69", "68W30"]
+
+sources:
+  - title: >-
+      A rank-708 scheme for ⟨9, 11, 11⟩ over ℚ, by flip-graph walks modulo 3 and 3-adic lifting from
+      Stoch's rank-710 scheme (Quantavane, 11 November 2026)
+    type: original-proof
+    relationship: other
+    contributors:
+      - name: "Claude (Anthropic)"
+        role: >-
+          AI agents working under Arhan Canli's direction: ran the search and the exact checks of the
+          scheme, wrote the packed kernel check, its soundness proof and the Lean formalization
+    note: >-
+      Also listed on quantavane.com and sent to the keeper of the Lille catalogue (November 2026).
+      The scheme file (Maple layout of the catalogue) has SHA-256
+      ccce4b416505a7af69338709bb4a332f2c87875009e9ff27cce600e97c228d74. Before the formalization it
+      was checked exactly by three separately written programs, each of which rejects a copy with one
+      coefficient changed.
+  - title: "Rank-710 scheme for ⟨9, 11, 11⟩ (repository cloudroom-math, October 2026)"
+    authors:
+      - "Matyas Stoch"
+    type: other
+    location: >-
+      as collected in https://github.com/dronperminov/FastMatrixMultiplication, file
+      schemes/known/cloudroom-math/9x11x11_rank710.json (master 6f8ef615, 9 November 2026)
+    relationship: background
+    note: >-
+      Stoch's rank-710 scheme over ℚ, the catalogue's entry before this one, is the starting point of
+      the search: 628 of the 708 terms are his, unchanged; the other 80 replace 82 of his terms in two
+      steps (710 to 709, 709 to 708). Stoch has not reviewed this repository.
+    author_endorsement: not-contacted
+  - title: "FastMatrixMultiplication (schemes for fast matrix multiplication)"
+    authors:
+      - "A. I. Perminov"
+    type: other
+    location: "https://github.com/dronperminov/FastMatrixMultiplication (master 6f8ef615, 9 November 2026)"
+    relationship: background
+    note: >-
+      The collection from which Stoch's scheme was read (data only; none of its code was run); its
+      docs/ranks.md listed 710 over ℚ for ⟨9, 11, 11⟩.
+    author_endorsement: not-contacted
+  - title: "Yet another catalogue of fast matrix multiplication algorithms"
+    authors:
+      - "Alexandre Sedoglavic"
+    type: other
+    location: "https://fmm.univ-lille.fr/ (index read 11 November 2026: ⟨9, 11, 11⟩ at rank 710)"
+    relationship: background
+    note: >-
+      The reference table for upper bounds on the rank of small matrix multiplication tensors; its
+      Maple layout A . B = ∑ᵢ Trace(Pᵢᵀ A) Trace(Qᵢᵀ B) Rᵢᵀ is the format of the scheme file.
+    author_endorsement: not-contacted
+  - title: "Flip graphs for matrix multiplication"
+    authors:
+      - "Manuel Kauers"
+      - "Jakob Moosbauer"
+    id: "arXiv:2212.01175"
+    type: paper
+    location: "Proceedings of ISSAC 2023"
+    relationship: background
+    note: "The flip moves used by the search."
+    author_endorsement: not-contacted
+  - title: "Adaptive flip graph algorithm for matrix multiplication"
+    authors:
+      - "Yamato Arai"
+      - "Yuma Ichikawa"
+      - "Koji Hukushima"
+    id: "arXiv:2312.16960"
+    type: paper
+    location: "Proceedings of ISSAC 2024"
+    relationship: background
+    note: "The plus transitions used by the search."
+    author_endorsement: not-contacted
+
+status:
+  scope: >-
+    Formalized: the decomposition of ⟨9, 11, 11⟩ by 708 rational triples, and the bilinear algorithm
+    over every field of characteristic zero (the field may live in any universe). Not formalized: the
+    definition of tensor rank itself (the statements are the decomposition and the algorithm, which
+    are what "rank at most 708" means); fields of positive characteristic (the denominators are powers
+    of 2, so the identity holds in every characteristic other than 2, but only characteristic zero is
+    stated); recursive use on blocks;
+    lower bounds; the correctness of the search programs, which is not needed because the scheme is
+    checked in Lean.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["claude-opus-5-5"]
+      framework: "Claude Code"
+      tool_setup: >-
+        AI agents in Claude Code with shell access to a local Lean toolchain, Mathlib and Python, and to
+        cloud notebooks for the search, working under Arhan Canli's direction: agents ran the
+        flip-graph walks and lifts and the exact checks (10–11 November 2026); another agent wrote the
+        packed kernel check, its soundness proof and this Challenge/Solution layout (13 November 2026).
+      cost:
+        wall_time: "about two days of agent work for the search, and part of a day for the Lean proof"
+        spend_usd: "subscription-based usage, not tracked per project"
+        hardware: "a local Mac (Apple silicon) and cloud CPU notebooks"
+      prompting_notes: >-
+        The agents were asked to improve entries of the Lille catalogue, then for a Lean proof of a
+        record with only the standard axioms (no native_decide) in which the scheme is untrusted data,
+        then for a Palomar-ready package.
+  spend_usd: "subscription-based usage, not tracked per project"
+  notes: >-
+    The search, the checks, the checker, its soundness proof and every line of Lean in this repository
+    were written by AI agents (Claude, by Anthropic). Arhan Canli directed the work and is responsible
+    for the result.
+
+fidelity:
+  divergences: >-
+    None known. Conventions: u, v and w index the entries (a, b) of A, (c, d) of B and (e, f) of
+    A * B; the scheme file's Rᵢ is stored transposed (wᵢ = Rᵢᵀ). The bilinear statement casts the
+    rational coefficients into the field with Mathlib's Rat.cast.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Quantavane's agents (Claude, Anthropic)"
+  notes: >-
+    The scheme was checked by three separately written exact programs before the Lean work, and the
+    data generator checks it again in exact integer arithmetic. In Lean: the axioms of both compared
+    theorems were printed; the declarations the compared statements depend on were compared between
+    the Challenge and Solution environments; the exported Solution was replayed through the kernels
+    bundled with the toolchain; red controls (one coefficient of each factor changed, a zero
+    coefficient made nonzero, the last term dropped, too few bits per slot, the wrong format) are
+    rejected. No mathematician outside Quantavane has reviewed the proof.
+
+alignment:
+  namespace: "MatMul9x11x11"
+  statements:
+    - source: "R(⟨9, 11, 11⟩) ≤ 708 over ℚ: a decomposition of the tensor into 708 rank-one terms"
+      lean: "MatMul9x11x11.exists_tensor_decomposition"
+      module: "Challenge"
+      status: proved
+    - source: "A bilinear algorithm with 708 multiplications for 9 × 11 by 11 × 11 matrices"
+      lean: "MatMul9x11x11.exists_bilinear_algorithm"
+      module: "Challenge"
+      status: proved
+      note: "Over every field of characteristic zero, with rational coefficients."
+
+acknowledgements: >-
+  Mathlib and the Lean toolchain (Lean FRO), including the Comparator and the bundled kernel
+  checkers; the Lille catalogue of fast matrix multiplication algorithms; M. Stoch's scheme and
+  A. I. Perminov's scheme repository; Palomar's template and documentation.
