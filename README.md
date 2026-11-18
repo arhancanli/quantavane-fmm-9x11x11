@@ -141,6 +141,22 @@ python3 scripts/make_data.py 9x11x11_708_tensor.mpl .   # regenerates Data.lean 
 - `MatMul9x11x11/Bridge.lean`: the range and bound checks, and the two statements.
 - `comparator.json`, `formalization.yaml`, `scripts/CheckAxioms.lean`, `scripts/make_data.py`.
 
+## How to cite
+
+If you use this work, please cite it as below.
+
+```bibtex
+@misc{quantavane-fmm-9x11x11,
+  author       = {Canli, Arhan},
+  title        = {Multiplying 9x11 by 11x11 matrices with 708 multiplications: Lean 4 proof},
+  year         = {2026},
+  howpublished = {\url{https://github.com/arhancanli/quantavane-fmm-9x11x11}},
+  note         = {Quantavane; Apache License 2.0}
+}
+```
+
+[CITATION.cff](CITATION.cff) gives the same reference for GitHub's "Cite this repository" button.
+
 ## Licence
 
 Apache-2.0 (`LICENSE`).
